@@ -1,4 +1,4 @@
-module.exports = [
+const allProducts = [
   {
     "id": 1,
     "name": "Martelo de Thor"
@@ -12,3 +12,10 @@ module.exports = [
     "name": "Escudo do Capitão América"
   }
 ];
+
+const newProduct = {
+  "id": 4,
+  "name": "Capacete do Homem de Ferro"
+}
+
+module.exports = { allProducts, newProduct }

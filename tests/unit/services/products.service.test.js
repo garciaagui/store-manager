@@ -46,4 +46,25 @@ describe('Testes de unidade do service de produtos', function () {
       expect(result.message).to.equal('"id" must be a number');
     });
   });
+
+  describe('Cadastro de produtos', function () {
+    it('Retorna o produto cadastrado', async function () {
+      sinon.stub(productModel, 'registerProduct').resolves([{ insertId: 4 }]);
+      sinon.stub(productModel, 'findById').resolves(mocks.newProduct);
+
+      const result = await productService.registerProduct(mocks.newProduct.name);
+
+      expect(result.type).to.equal(null);
+      expect(result.message).to.deep.equal(mocks.newProduct);
+    })
+
+    it('Retorna um erro caso o nome seja inválido', async function () {
+      sinon.stub(productModel, 'registerProduct').resolves(undefined);
+
+      const result = await productService.registerProduct('xxx');
+
+      expect(result.type).to.equal('INVALID_VALUE');
+      expect(result.message).to.equal('"name" length must be at least 5 characters long');
+    })
+  })
 });

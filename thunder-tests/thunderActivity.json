@@ -8,9 +8,14 @@
     "method": "GET",
     "sortNum": 0,
     "created": "2022-11-11T19:10:21.175Z",
-    "modified": "2022-11-11T20:50:44.601Z",
+    "modified": "2022-11-11T21:45:27.802Z",
     "headers": [],
     "params": [],
+    "body": {
+      "type": "json",
+      "raw": "{\n  \"name\": \"xxxxxxxxx\"\n}",
+      "form": []
+    },
     "tests": []
   },
   {
@@ -134,9 +139,28 @@
     "method": "GET",
     "sortNum": 0,
     "created": "2022-11-11T20:50:57.649Z",
-    "modified": "2022-11-11T20:50:58.140Z",
+    "modified": "2022-11-11T21:05:05.274Z",
     "headers": [],
     "params": [],
+    "tests": []
+  },
+  {
+    "_id": "88d55dc4-34c1-4e6b-bd1f-79062a1940d7",
+    "colId": "history",
+    "containerId": "",
+    "name": "http://localhost:3000/products/",
+    "url": "http://localhost:3000/products/",
+    "method": "POST",
+    "sortNum": 0,
+    "created": "2022-11-11T21:23:49.872Z",
+    "modified": "2022-11-11T22:27:24.564Z",
+    "headers": [],
+    "params": [],
+    "body": {
+      "type": "json",
+      "raw": "{\n  \"name\": \"xxxxxxxxxxx\"\n}",
+      "form": []
+    },
     "tests": []
   }
 ]

@@ -80,4 +80,38 @@ describe('Testes de unidade do controller de produtos', function () {
     });
   });
 
+  describe('Cadastro de produtos', function () {
+    it('Retorna o produto cadastrado', async function () {
+      const res = {};
+      const req = { body: { name: mocks.newProduct.name }, };
+      res.status = sinon.stub().returns(res);
+      res.json = sinon.stub().returns();
+
+      sinon
+        .stub(productService, 'registerProduct')
+        .resolves({ type: null, message: mocks.newProduct });
+
+      await productController.registerProduct(req, res);
+
+      expect(res.status).to.have.been.calledWith(201);
+      expect(res.json).to.have.been.calledWith(mocks.newProduct);
+    })
+
+    it('Retorna um erro caso o nome seja inválido', async function () {
+      const res = {};
+      const req = { body: { name: 'xxx' }, };
+      res.status = sinon.stub().returns(res);
+      res.json = sinon.stub().returns();
+
+      sinon
+        .stub(productService, 'registerProduct')
+        .resolves({ type: 'INVALID_VALUE', message: '"name" length must be at least 5 characters long' });
+
+      await productController.registerProduct(req, res);
+
+      expect(res.status).to.have.been.calledWith(422);
+      expect(res.json).to.have.been.calledWith({ message: '"name" length must be at least 5 characters long' });
+    });
+  })
+
 });

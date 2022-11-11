@@ -16,7 +16,16 @@ const findById = async (productId) => {
   return camelize(driver);
 };
 
+const registerProduct = async (name) => {
+  const [{ insertId }] = await connection.execute(
+    'INSERT INTO StoreManager.products (name) VALUE (?)',
+    [name],
+  );
+  return camelize(insertId);
+};
+
 module.exports = {
   findAll,
   findById,
+  registerProduct,
 };

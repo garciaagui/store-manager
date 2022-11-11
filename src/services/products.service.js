@@ -15,7 +15,18 @@ const findById = async (productId) => {
   return { type: 'PRODUCT_NOT_FOUND', message: 'Product not found' };
 };
 
+const registerProduct = async (name) => {
+  const error = validations.validateNewProduct(name);
+  if (error.type) return error;
+
+  const newProductId = await productModel.registerProduct(name);
+  const newProduct = await productModel.findById(newProductId);
+
+  return { type: null, message: newProduct };
+};
+
 module.exports = {
   findAll,
   findById,
+  registerProduct,
 };
