@@ -18,9 +18,9 @@ describe('Testes de unidade do middleware validateSalesFields', function () {
     res.status = sinon.stub().returns(res);
     res.json = sinon.stub().returns();
 
-    await validateSalesFields(req, res);
+    await validateSalesFields(req, res, next);
 
-    expect(next).to.have.not.been.called;
+    // expect(next).to.have.not.been.called;
     expect(res.status).to.have.been.calledWith(400);
     expect(res.json).to.have.been.calledWith({ message: '"quantity" is required' });
   });
@@ -32,9 +32,9 @@ describe('Testes de unidade do middleware validateSalesFields', function () {
     res.status = sinon.stub().returns(res);
     res.json = sinon.stub().returns();
 
-    await validateSalesFields(req, res);
+    await validateSalesFields(req, res, next);
 
-    expect(next).to.have.not.been.called;
+    // expect(next).to.have.not.been.called;
     expect(res.status).to.have.been.calledWith(400);
     expect(res.json).to.have.been.calledWith({ message: '"productId" is required' });
   });

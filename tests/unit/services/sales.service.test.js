@@ -38,7 +38,7 @@ describe('Testes de unidade do service de vendas', function () {
       const result = await salesService.registerSale(mocks.itemsWithInvalidQuantity);
 
       expect(result.type).to.equal('INVALID_VALUE');
-      expect(result.message).to.equal('\'quantity\' must be greater than or equal to 1');
+      expect(result.message).to.equal('"quantity" must be greater than or equal to 1');
     });
 
     it('Retorna um erro caso não haja nenhum produto vinculado a algum ID passado', async function () {
