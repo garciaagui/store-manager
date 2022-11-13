@@ -49,9 +49,20 @@ const validateProductUpdating = async (name, productId) => {
   return { type: null, message: '' };
 };
 
+const validateProductDeletion = async (productId) => {
+  const { error } = schemas.idSchema.validate(productId);
+  if (error) return { type: 'INVALID_VALUE', message: '"productId" must be a number' };
+
+  const doesTheProductExist = await productModel.findById(productId);
+  if (!doesTheProductExist) return { type: 'PRODUCT_NOT_FOUND', message: 'Product not found' };
+
+  return { type: null, message: '' };
+};
+
 module.exports = {
   validateId,
   validateNewProduct,
   validateNewSale,
   validateProductUpdating,
+  validateProductDeletion,
 };

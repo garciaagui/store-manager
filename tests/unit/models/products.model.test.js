@@ -48,4 +48,15 @@ describe('Testes de unidade do model de produtos', function () {
       expect(result).to.be.deep.equal(1);
     });
   });
+
+  describe('Exclusão de produtos', function () {
+    it('Retorna o número de linhas afetadas pela exclusão', async function () {
+      const productId = 3;
+      sinon.stub(connection, 'execute').resolves([{ affectedRows: 1 }]);
+
+      const result = await productModel.deleteProduct(productId);
+
+      expect(result).to.be.deep.equal(1);
+    });
+  });
 });

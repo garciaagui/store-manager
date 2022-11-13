@@ -197,4 +197,63 @@ describe('Testes de unidade do controller de produtos', function () {
     });
   });
 
+  describe('Exclusão de produtos com informações válidas', function () {
+    it('Retorna nada caso o ID esteja correto', async function () {
+      const productId = 1;
+
+      const res = {};
+      const req = { params: { id: productId } };
+      res.status = sinon.stub().returns(res);
+      res.json = sinon.stub().returns();
+
+      sinon
+        .stub(productService, 'deleteProduct')
+        .resolves({ type: null, message: '' });
+
+      await productController.deleteProduct(req, res);
+
+      expect(res.status).to.have.been.calledWith(204);
+      expect(res.json).to.have.been.calledWith();
+    });
+  });
+
+  describe('Tentativa de exclusão de produtos com informações inválidas', function () {
+    it('Retorna um erro caso não haja nenhum produto vinculado ao ID passado', async function () {
+      const invalidProductId = 999;
+      const errorMessage = 'Product not found';
+
+      const res = {};
+      const req = { params: { id: invalidProductId } };
+      res.status = sinon.stub().returns(res);
+      res.json = sinon.stub().returns();
+
+      sinon
+        .stub(productService, 'deleteProduct')
+        .resolves({ type: 'PRODUCT_NOT_FOUND', message: errorMessage });
+
+      await productController.deleteProduct(req, res);
+
+      expect(res.status).to.have.been.calledWith(404);
+      expect(res.json).to.have.been.calledWith({ message: errorMessage });
+    });
+
+    it('Retorna um erro caso o ID seja inválido', async function () {
+      const invalidProductId = 'x';
+      const errorMessage = '"productId" must be a number';
+
+      const res = {};
+      const req = { params: { id: invalidProductId } };
+      res.status = sinon.stub().returns(res);
+      res.json = sinon.stub().returns();
+
+      sinon
+        .stub(productService, 'deleteProduct')
+        .resolves({ type: 'INVALID_VALUE', message: errorMessage });
+
+      await productController.deleteProduct(req, res);
+
+      expect(res.status).to.have.been.calledWith(422);
+      expect(res.json).to.have.been.calledWith({ message: errorMessage });
+    });
+  });
 });

@@ -149,16 +149,16 @@
     "colId": "history",
     "containerId": "",
     "name": "http://localhost:3000/products/",
-    "url": "http://localhost:3000/products/3",
-    "method": "PUT",
+    "url": "http://localhost:3000/products/8",
+    "method": "DELETE",
     "sortNum": 0,
     "created": "2022-11-11T21:23:49.872Z",
-    "modified": "2022-11-13T13:52:52.903Z",
+    "modified": "2022-11-13T14:35:30.513Z",
     "headers": [],
     "params": [],
     "body": {
       "type": "json",
-      "raw": "{\n  \"name\": \"XXX\"\n}",
+      "raw": "{\n  \"name\": \"skakslaks\"\n}\n",
       "form": []
     },
     "tests": []

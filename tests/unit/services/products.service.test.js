@@ -116,4 +116,40 @@ describe('Testes de unidade do service de produtos', function () {
       expect(result.message).to.equal('"name" length must be at least 5 characters long');
     });
   });
+
+  describe('Exclusão de produtos com informações válidas', function () {
+    it('Retorna nada caso o id seja correto', async function () {
+      const productId = 1;
+
+      sinon.stub(productModel, 'deleteProduct').resolves([{ affectedRows: 1 }]);
+
+      const result = await productService.deleteProduct(productId);
+
+      expect(result.type).to.equal(null);
+      expect(result.message).to.deep.equal('');
+    });
+  });
+
+  describe('Tentativa de exclusão de produtos com informações inválidas', function () {
+    it('Retorna um erro caso não haja nenhum produto vinculado ao ID passado', async function () {
+      const invalidProductId = 999;
+      sinon.stub(productModel, 'deleteProduct').resolves(undefined);
+
+      const result = await productService.deleteProduct(invalidProductId);
+
+      expect(result.type).to.equal('PRODUCT_NOT_FOUND');
+      expect(result.message).to.equal('Product not found');
+    });
+
+    it('Retorna um erro caso o ID seja inválido', async function () {
+      const invalidProductId = 'x';
+      sinon.stub(productModel, 'deleteProduct').resolves(undefined);
+
+      const result = await productService.deleteProduct(invalidProductId);
+
+      expect(result.type).to.equal('INVALID_VALUE');
+      expect(result.message).to.equal('"productId" must be a number');
+    });
+  });
+
 });
