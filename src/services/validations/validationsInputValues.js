@@ -1,5 +1,6 @@
 const schemas = require('./schemas');
 const productModel = require('../../models/products.model');
+const salesModel = require('../../models/sales.model');
 
 const validateId = (id) => {
   const { error } = schemas.idSchema.validate(id);
@@ -59,10 +60,23 @@ const validateProductDeletion = async (productId) => {
   return { type: null, message: '' };
 };
 
+const validateSaleDeletion = async (saleId) => {
+  const { error } = schemas.idSchema.validate(saleId);
+  if (error) return { type: 'INVALID_VALUE', message: '"saleId" must be a number' };
+
+  const doesTheSaleExist = await salesModel.findById(saleId);
+  if (!doesTheSaleExist.length) {
+    return { type: 'SALE_NOT_FOUND', message: 'Sale not found' };
+  }
+
+  return { type: null, message: '' };
+};
+
 module.exports = {
   validateId,
   validateNewProduct,
   validateNewSale,
   validateProductUpdating,
   validateProductDeletion,
+  validateSaleDeletion,
 };

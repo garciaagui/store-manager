@@ -35,5 +35,17 @@ describe('Testes de unidade do model de vendas', function () {
 
       expect(result).to.be.deep.equal(3);
     });
-  })
+  });
+
+  describe('Exclusão de vendas', function () {
+    it('Retorna o número de linhas afetadas pela exclusão', async function () {
+      const saleId = 3;
+      sinon.stub(connection, 'execute').resolves([{ affectedRows: 1 }]);
+
+      const result = await salesModel.deleteSale(saleId);
+
+      expect(result).to.be.deep.equal(1);
+    });
+  });
+
 });

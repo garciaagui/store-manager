@@ -87,4 +87,40 @@ describe('Testes de unidade do service de vendas', function () {
       expect(result.message).to.equal('Product not found');
     });
   });
+
+  describe('Exclusão de vendas com informações válidas', function () {
+    it('Retorna nada caso o id seja correto', async function () {
+      const saleId = 1;
+
+      sinon.stub(salesModel, 'deleteSale').resolves([{ affectedRows: 1 }]);
+
+      const result = await salesService.deleteSale(saleId);
+
+      expect(result.type).to.equal(null);
+      expect(result.message).to.deep.equal('');
+    });
+  });
+
+  describe('Tentativa de exclusão de vendas com informações inválidas', function () {
+    it('Retorna um erro caso não haja nenhuma venda vinculada ao ID passado', async function () {
+      const invalidsaleId = 999;
+      sinon.stub(salesModel, 'deleteSale').resolves(undefined);
+
+      const result = await salesService.deleteSale(invalidsaleId);
+
+      expect(result.type).to.equal('SALE_NOT_FOUND');
+      expect(result.message).to.equal('Sale not found');
+    });
+
+    it('Retorna um erro caso o ID seja inválido', async function () {
+      const invalidsaleId = 'x';
+      sinon.stub(salesModel, 'deleteSale').resolves(undefined);
+
+      const result = await salesService.deleteSale(invalidsaleId);
+
+      expect(result.type).to.equal('INVALID_VALUE');
+      expect(result.message).to.equal('"saleId" must be a number');
+    });
+  });
+
 });

@@ -137,4 +137,64 @@ describe('Testes de unidade do controller de vendas', function () {
     });
   });
 
+  describe('Exclusão de vendas com informações válidas', function () {
+    it('Retorna nada caso o ID esteja correto', async function () {
+      const saleId = 1;
+
+      const res = {};
+      const req = { params: { id: saleId } };
+      res.status = sinon.stub().returns(res);
+      res.json = sinon.stub().returns();
+
+      sinon
+        .stub(salesService, 'deleteSale')
+        .resolves({ type: null, message: '' });
+
+      await salesController.deleteSale(req, res);
+
+      expect(res.status).to.have.been.calledWith(204);
+      expect(res.json).to.have.been.calledWith();
+    });
+  });
+
+  describe('Tentativa de exclusão de vendas com informações inválidas', function () {
+    it('Retorna um erro caso não haja nenhuma venda vinculada ao ID passado', async function () {
+      const invalidSaleId = 999;
+      const errorMessage = 'Sale not found';
+
+      const res = {};
+      const req = { params: { id: invalidSaleId } };
+      res.status = sinon.stub().returns(res);
+      res.json = sinon.stub().returns();
+
+      sinon
+        .stub(salesService, 'deleteSale')
+        .resolves({ type: 'SALE_NOT_FOUND', message: errorMessage });
+
+      await salesController.deleteSale(req, res);
+
+      expect(res.status).to.have.been.calledWith(404);
+      expect(res.json).to.have.been.calledWith({ message: errorMessage });
+    });
+
+    it('Retorna um erro caso o ID seja inválido', async function () {
+      const invalidSaleId = 'x';
+      const errorMessage = '"saleId" must be a number';
+
+      const res = {};
+      const req = { params: { id: invalidSaleId } };
+      res.status = sinon.stub().returns(res);
+      res.json = sinon.stub().returns();
+
+      sinon
+        .stub(salesService, 'deleteSale')
+        .resolves({ type: 'INVALID_VALUE', message: errorMessage });
+
+      await salesController.deleteSale(req, res);
+
+      expect(res.status).to.have.been.calledWith(422);
+      expect(res.json).to.have.been.calledWith({ message: errorMessage });
+    });
+  });
+
 });

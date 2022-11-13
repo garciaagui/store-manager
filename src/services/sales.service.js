@@ -41,8 +41,18 @@ const registerSale = async (itemsSold) => {
   return { type: null, message: messageContent };
 };
 
+const deleteSale = async (saleId) => {
+  const error = await validations.validateSaleDeletion(saleId);
+  if (error.type) return error;
+
+  await salesModel.deleteSale(saleId);
+
+  return { type: null, message: '' };
+};
+
 module.exports = {
   findAll,
   findById,
   registerSale,
+  deleteSale,
 };
