@@ -12,6 +12,76 @@ const mocks = require('./mocks/sales.controller.mock');
 describe('Testes de unidade do controller de vendas', function () {
   afterEach(sinon.restore);
 
+  describe('Listagem de todas as vendas', function () {
+    it('Retorna todas as vendas', async function () {
+      const res = {};
+      const req = {};
+      res.status = sinon.stub().returns(res);
+      res.json = sinon.stub().returns();
+
+      sinon
+        .stub(salesService, 'findAll')
+        .resolves({ type: null, message: mocks.allSales });
+
+      await salesController.findAll(req, res);
+
+      expect(res.status).to.have.been.calledWith(200);
+      expect(res.json).to.have.been.calledWith(mocks.allSales);
+    });
+  });
+
+  describe('Listagem de venda por ID', function () {
+    it('Retorna a venda caso o ID esteja correto', async function () {
+      const res = {};
+      const req = { params: { id: 1 }, };
+      res.status = sinon.stub().returns(res);
+      res.json = sinon.stub().returns();
+
+      sinon
+        .stub(salesService, 'findById')
+        .resolves({ type: null, message: mocks.saleById });
+
+      await salesController.findById(req, res);
+
+      expect(res.status).to.have.been.calledWith(200);
+      expect(res.json).to.have.been.calledWith(mocks.saleById);
+    });
+
+    it('Retorna um erro caso não haja nenhuma venda vinculada ao ID passado', async function () {
+      const errorMessage = 'Sale not found';
+      const res = {};
+      const req = { params: { id: 999 }, };
+      res.status = sinon.stub().returns(res);
+      res.json = sinon.stub().returns();
+
+      sinon
+        .stub(salesService, 'findById')
+        .resolves({ type: 'SALE_NOT_FOUND', message: errorMessage });
+
+      await salesController.findById(req, res);
+
+      expect(res.status).to.have.been.calledWith(404);
+      expect(res.json).to.have.been.calledWith({ message: errorMessage });
+    });
+
+    it('Retorna um erro caso o ID seja inválido', async function () {
+      const errorMessage = '"id" must be a number';
+      const res = {};
+      const req = { params: { id: 'x' }, };
+      res.status = sinon.stub().returns(res);
+      res.json = sinon.stub().returns();
+
+      sinon
+        .stub(salesService, 'findById')
+        .resolves({ type: 'INVALID_VALUE', message: errorMessage });
+
+      await salesController.findById(req, res);
+
+      expect(res.status).to.have.been.calledWith(422);
+      expect(res.json).to.have.been.calledWith({ message: errorMessage });
+    });
+  });
+
   describe('Cadastro de vendas com informações válidas', function () {
     it('Retorna o produto cadastrado', async function () {
       const res = {};

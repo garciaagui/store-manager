@@ -2,6 +2,20 @@ const validations = require('./validations/validationsInputValues');
 const salesModel = require('../models/sales.model');
 const salesProductsModel = require('../models/sales_products.model');
 
+const findAll = async () => {
+  const sales = await salesModel.findAll();
+  return { type: null, message: sales };
+};
+
+const findById = async (saleId) => {
+  const error = validations.validateId(saleId);
+  if (error.type) return error;
+
+  const sale = await salesModel.findById(saleId);
+  if (sale && sale.length) return { type: null, message: sale };
+  return { type: 'SALE_NOT_FOUND', message: 'Sale not found' };
+};
+
 const saveSalesRelationships = (newSaleId, productsSold) => {
   if (productsSold && productsSold.length > 0) {
     return productsSold.map(async (e) => {
@@ -28,5 +42,7 @@ const registerSale = async (itemsSold) => {
 };
 
 module.exports = {
+  findAll,
+  findById,
   registerSale,
 };

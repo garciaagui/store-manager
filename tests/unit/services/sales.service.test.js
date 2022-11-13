@@ -9,6 +9,45 @@ const mocks = require('./mocks/sales.service.mock');
 describe('Testes de unidade do service de vendas', function () {
   afterEach(sinon.restore);
 
+  describe('Listagem de todas as vendas', function () {
+    it('Retorna todas as vendas', async function () {
+      sinon.stub(salesModel, 'findAll').resolves(mocks.allSales);
+
+      const result = await salesService.findAll();
+
+      expect(result.message).to.deep.equal(mocks.allSales);
+    });
+  });
+
+  describe('Listagem de venda por ID', function () {
+    it('Retorna a venda caso o ID esteja correto', async function () {
+      sinon.stub(salesModel, 'findById').resolves(mocks.saleById);
+
+      const result = await salesService.findById(1);
+
+      expect(result.type).to.equal(null);
+      expect(result.message).to.deep.equal(mocks.saleById);
+    });
+
+    it('Retorna um erro caso não haja nenhuma venda vinculada ao ID passado', async function () {
+      sinon.stub(salesModel, 'findById').resolves(undefined);
+
+      const result = await salesService.findById(999);
+
+      expect(result.type).to.equal('SALE_NOT_FOUND');
+      expect(result.message).to.equal('Sale not found');
+    });
+
+    it('Retorna um erro caso o ID seja inválido', async function () {
+      sinon.stub(salesModel, 'findById').resolves(undefined);
+
+      const result = await salesService.findById('x');
+
+      expect(result.type).to.equal('INVALID_VALUE');
+      expect(result.message).to.equal('"id" must be a number');
+    });
+  });
+
   describe('Cadastro de vendas com informações válidas', function () {
     it('Retorna a venda cadastrada', async function () {
       const saleId = 3
