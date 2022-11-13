@@ -39,8 +39,19 @@ const validateNewSale = async (itemsSold) => {
   return { type: null, message: '' };
 };
 
+const validateProductUpdating = async (name, productId) => {
+  const { error } = schemas.updateProduct.validate({ name, productId });
+  if (error) return { type: 'INVALID_VALUE', message: error.message };
+
+  const doesTheProductExist = await productModel.findById(productId);
+  if (!doesTheProductExist) return { type: 'PRODUCT_NOT_FOUND', message: 'Product not found' };
+
+  return { type: null, message: '' };
+};
+
 module.exports = {
   validateId,
   validateNewProduct,
   validateNewSale,
+  validateProductUpdating,
 };

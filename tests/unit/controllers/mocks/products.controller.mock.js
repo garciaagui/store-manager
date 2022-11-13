@@ -23,4 +23,9 @@ const newProduct = {
   "name": "Capacete do Homem de Ferro"
 }
 
-module.exports = { allProducts, productById, newProduct }
+const updatedProduct = {
+  "id": 1,
+  "name": "Martelo do Bataman"
+}
+
+module.exports = { allProducts, productById, newProduct, updatedProduct }

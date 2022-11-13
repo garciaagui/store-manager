@@ -16,8 +16,14 @@ const registerProductSchema = Joi.string().min(5).required();
 
 const registerSaleSchema = Joi.array().items(salesRelationshipsSchema);
 
+const updateProduct = Joi.object({
+  productId: idSchema,
+  name: Joi.string().min(5).required(),
+});
+
 module.exports = {
   idSchema,
   registerProductSchema,
   registerSaleSchema,
+  updateProduct,
 };

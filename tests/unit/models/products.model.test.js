@@ -35,5 +35,17 @@ describe('Testes de unidade do model de produtos', function () {
 
       expect(result).to.be.deep.equal(mocks.newProduct.id);
     });
-  })
+  });
+
+  describe('Atualização de produtos', function () {
+    it('Retorna o número de linhas afetadas pela atualização', async function () {
+      const newValue = 'Martelo do Batman';
+      const productId = 1;
+      sinon.stub(connection, 'execute').resolves([{ affectedRows: 1 }]);
+
+      const result = await productModel.updateProduct(newValue, productId);
+
+      expect(result).to.be.deep.equal(1);
+    });
+  });
 });
