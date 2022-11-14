@@ -80,6 +80,56 @@ describe('Testes de unidade do controller de produtos', function () {
     });
   });
 
+  describe('Listagem de produtos por nome', function () {
+    it('Retorna os produtos cujos nomes possuam o termo pesquisado', async function () {
+      const res = {};
+      const req = { query: { q: 'i' }, };
+      res.status = sinon.stub().returns(res);
+      res.json = sinon.stub().returns();
+
+      sinon
+        .stub(productService, 'findByName')
+        .resolves({ type: null, message: mocks.productsByName });
+
+      await productController.findByName(req, res);
+
+      expect(res.status).to.have.been.calledWith(200);
+      expect(res.json).to.have.been.calledWith(mocks.productsByName);
+    });
+
+    it('Retorna um array vazio caso não haja produtos cujos nomes possuam o termo pesquisado ', async function () {
+      const res = {};
+      const req = { query: { q: 'xxx' }, };
+      res.status = sinon.stub().returns(res);
+      res.json = sinon.stub().returns();
+
+      sinon
+        .stub(productService, 'findByName')
+        .resolves({ type: null, message: [] });
+
+      await productController.findByName(req, res);
+
+      expect(res.status).to.have.been.calledWith(200);
+      expect(res.json).to.have.been.calledWith([]);
+    });
+
+    it('Retorna todos os produtos caso nenhum termo seja passado', async function () {
+      const res = {};
+      const req = { query: { q: '' }, };
+      res.status = sinon.stub().returns(res);
+      res.json = sinon.stub().returns();
+
+      sinon
+        .stub(productService, 'findByName')
+        .resolves({ type: null, message: mocks.allProducts });
+
+      await productController.findByName(req, res);
+
+      expect(res.status).to.have.been.calledWith(200);
+      expect(res.json).to.have.been.calledWith(mocks.allProducts);
+    });
+  });
+
   describe('Cadastro de produtos', function () {
     it('Retorna o produto cadastrado', async function () {
       const res = {};

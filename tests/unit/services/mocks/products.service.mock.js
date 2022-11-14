@@ -18,6 +18,17 @@ const productById = {
   "name": "Martelo de Thor"
 }
 
+const productsByName = [
+  {
+    "id": 2,
+    "name": "Traje de encolhimento"
+  },
+  {
+    "id": 3,
+    "name": "Escudo do Capitão América"
+  }
+];
+
 const newProduct = {
   "id": 4,
   "name": "Capacete do Homem de Ferro"
@@ -28,4 +39,10 @@ const updatedProduct = {
   "name": "Martelo do Batman"
 }
 
-module.exports = { allProducts, productById, newProduct, updatedProduct }
+module.exports = {
+  allProducts,
+  productById,
+  productsByName,
+  newProduct,
+  updatedProduct
+}

@@ -15,6 +15,15 @@ const findById = async (productId) => {
   return { type: 'PRODUCT_NOT_FOUND', message: 'Product not found' };
 };
 
+const findByName = async (searchName) => {
+  if (!searchName) {
+    const allProducts = await productModel.findAll();
+    return { type: null, message: allProducts };
+  }
+  const productsByName = await productModel.findByName(`%${searchName}%`);
+  return { type: null, message: productsByName };
+};
+
 const registerProduct = async (name) => {
   const error = validations.validateNewProduct(name);
   if (error.type) return error;
@@ -48,6 +57,7 @@ const deleteProduct = async (productId) => {
 module.exports = {
   findAll,
   findById,
+  findByName,
   registerProduct,
   updateProduct,
   deleteProduct,

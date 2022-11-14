@@ -17,6 +17,14 @@ const findById = async (productId) => {
   return camelize(driver);
 };
 
+const findByName = async (searchName) => {
+  const [result] = await connection.execute(
+    'SELECT * FROM StoreManager.products WHERE name LIKE ?',
+    [searchName],
+  );
+  return camelize(result);
+};
+
 const registerProduct = async (name) => {
   const [{ insertId }] = await connection.execute(
     'INSERT INTO StoreManager.products (name) VALUE (?)',
@@ -49,6 +57,7 @@ const deleteProduct = async (productId) => {
 module.exports = {
   findAll,
   findById,
+  findByName,
   registerProduct,
   updateProduct,
   deleteProduct,

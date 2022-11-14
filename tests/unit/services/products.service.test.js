@@ -47,6 +47,35 @@ describe('Testes de unidade do service de produtos', function () {
     });
   });
 
+  describe('Listagem de produtos por nome', function () {
+    it('Retorna os produtos cujos nomes possuam o termo pesquisado', async function () {
+      sinon.stub(productModel, 'findByName').resolves(mocks.productsByName);
+
+      const result = await productService.findByName('i');
+
+      expect(result.type).to.equal(null);
+      expect(result.message).to.deep.equal(mocks.productsByName);
+    });
+
+    it('Retorna um array vazio caso não haja produtos cujos nomes possuam o termo pesquisado ', async function () {
+      sinon.stub(productModel, 'findByName').resolves([]);
+
+      const result = await productService.findByName('xxx');
+
+      expect(result.type).to.equal(null);
+      expect(result.message).to.deep.equal([]);
+    });
+
+    it('Retorna todos os produtos caso nenhum termo seja passado', async function () {
+      sinon.stub(productModel, 'findByName').resolves(mocks.allProducts);
+
+      const result = await productService.findByName();
+
+      expect(result.type).to.equal(null);
+      expect(result.message).to.deep.equal(mocks.allProducts);
+    });
+  });
+
   describe('Cadastro de produtos', function () {
     it('Retorna o produto cadastrado', async function () {
       sinon.stub(productModel, 'registerProduct').resolves([{ insertId: 4 }]);

@@ -25,6 +25,14 @@ describe('Testes de unidade do model de produtos', function () {
 
       expect(result).to.be.deep.equal(mocks.allProducts[0]);
     });
+
+    it('Retorna produtos a partir do nome', async function () {
+      sinon.stub(connection, 'execute').resolves([mocks.allProducts[3]]);
+
+      const result = await productModel.findByName('Capitão');
+
+      expect(result).to.be.deep.equal(mocks.allProducts[3]);
+    })
   });
 
   describe('Cadastro de produtos', function () {
