@@ -43,6 +43,17 @@ const validItemsSold = [
   }
 ];
 
+const newValidItemsSold = [
+  {
+    "productId": 1,
+    "quantity": 1
+  },
+  {
+    "productId": 2,
+    "quantity": 5
+  }
+];
+
 const itemsWithInvalidQuantity = [
   {
     "productId": 1,
@@ -69,6 +80,7 @@ module.exports = {
   allSales,
   saleById,
   validItemsSold,
+  newValidItemsSold,
   itemsWithInvalidQuantity,
   itemsWithInvalidProductId
 };

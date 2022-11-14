@@ -1,4 +1,3 @@
-// const camelize = require('camelize');
 const connection = require('./connection');
 
 const registerRelationshipSalesProducts = async (saleId, productId, quantity) => {
@@ -11,4 +10,14 @@ const registerRelationshipSalesProducts = async (saleId, productId, quantity) =>
   return insertId;
 };
 
-module.exports = { registerRelationshipSalesProducts };
+const deleteRelationshipSalesProducts = async (saleId) => {
+  const [{ affectedRows }] = await connection.execute(
+    `DELETE FROM StoreManager.sales_products
+    WHERE sale_id = ?`,
+    [saleId],
+  );
+
+  return affectedRows;
+};
+
+module.exports = { registerRelationshipSalesProducts, deleteRelationshipSalesProducts };

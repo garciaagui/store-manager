@@ -48,6 +48,60 @@ describe('Testes de unidade do service de vendas', function () {
     });
   });
 
+  describe('Atualização de vendas com informações válidas', function () {
+    it('Retorna a venda atualizada caso o ID esteja correto', async function () {
+      const saleId = 1;
+      sinon.stub(salesProductsModel, 'deleteRelationshipSalesProducts')
+        .resolves([{ affectedRows: mocks.validItemsSold.length }]);
+      sinon.stub(salesProductsModel, 'registerRelationshipSalesProducts')
+        .onCall(0)
+        .resolves({ insertId: 1 })
+        .onCall(1)
+        .resolves({ insertId: 2 });
+
+      const result = await salesService.updateSale(saleId, mocks.newValidItemsSold);
+
+      expect(result.type).to.equal(null);
+      expect(result.message).to.deep.equal({ saleId, itemsUpdated: mocks.newValidItemsSold });
+    });
+  });
+
+  describe('Tentativa de atualização de vendas com informações inválidas', function () {
+    const saleId = 1;
+
+    it('Retorna um erro caso alguma quantidade seja inválida', async function () {
+      const result = await salesService.updateSale(saleId, mocks.itemsWithInvalidQuantity);
+
+      expect(result.type).to.equal('INVALID_VALUE');
+      expect(result.message).to.equal('"quantity" must be greater than or equal to 1');
+    });
+
+    it('Retorna um erro caso não haja nenhum produto vinculado a algum ID passado', async function () {
+      const result = await salesService.updateSale(saleId, mocks.itemsWithInvalidProductId);
+
+      expect(result.type).to.equal('PRODUCT_NOT_FOUND');
+      expect(result.message).to.equal('Product not found');
+    });
+
+    it('Retorna um erro caso não haja nenhuma venda vinculada ao ID passado', async function () {
+      const invalidsaleId = 999;
+
+      const result = await salesService.updateSale(invalidsaleId, mocks.newValidItemsSold);
+
+      expect(result.type).to.equal('SALE_NOT_FOUND');
+      expect(result.message).to.equal('Sale not found');
+    });
+
+    it('Retorna um erro caso o ID seja inválido', async function () {
+      const invalidsaleId = 'x';
+
+      const result = await salesService.updateSale(invalidsaleId, mocks.newValidItemsSold);
+
+      expect(result.type).to.equal('INVALID_VALUE');
+      expect(result.message).to.equal('"saleId" must be a number');
+    });
+  });
+
   describe('Cadastro de vendas com informações válidas', function () {
     it('Retorna a venda cadastrada', async function () {
       const saleId = 3

@@ -29,7 +29,7 @@ const saveSalesRelationships = (newSaleId, productsSold) => {
 };
 
 const registerSale = async (itemsSold) => {
-  const error = await validations.validateNewSale(itemsSold);
+  const error = await validations.validateSale(itemsSold);
   if (error.type) return error;
   
   const saleId = await salesModel.registerSale();
@@ -50,9 +50,27 @@ const deleteSale = async (saleId) => {
   return { type: null, message: '' };
 };
 
+const updateSale = async (saleId, newItemsSold) => {
+  const firstCheckError = await validations.validateSaleDeletion(saleId);
+  if (firstCheckError.type) return firstCheckError;
+
+  const secondCheckError = await validations.validateSale(newItemsSold);
+  if (secondCheckError.type) return secondCheckError;
+
+  await salesProductsModel.deleteRelationshipSalesProducts(saleId);
+
+  await Promise.all(saveSalesRelationships(saleId, newItemsSold));
+
+  const messageContent = { saleId, itemsUpdated: newItemsSold };
+
+  return { type: null, message: messageContent };
+};
+
 module.exports = {
   findAll,
   findById,
+  saveSalesRelationships,
   registerSale,
   deleteSale,
+  updateSale,
 };

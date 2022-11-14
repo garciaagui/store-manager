@@ -59,6 +59,20 @@ const validRes = {
   ]
 }
 
+const validUpdatedRes = {
+  "saleId": 3,
+  "itemsUpdated": [
+    {
+      "productId": 1,
+      "quantity": 1
+    },
+    {
+      "productId": 2,
+      "quantity": 5
+    }
+  ]
+}
+
 const reqWithInvalidQuantity = {
   body: [
     {
@@ -90,6 +104,7 @@ module.exports = {
   saleById,
   validReq,
   validRes,
+  validUpdatedRes,
   reqWithInvalidQuantity,
   reqWithInvalidProductId
 };

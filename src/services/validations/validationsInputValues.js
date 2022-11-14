@@ -18,7 +18,7 @@ const validateNewProduct = (name) => {
   return { type: null, message: '' };
 };
 
-const validateNewSale = async (itemsSold) => {
+const validateSale = async (itemsSold) => {
   // const { error } = schemas.registerSaleSchema
   //   .validate({ saleId, itemsSold });
   
@@ -75,7 +75,7 @@ const validateSaleDeletion = async (saleId) => {
 module.exports = {
   validateId,
   validateNewProduct,
-  validateNewSale,
+  validateSale,
   validateProductUpdating,
   validateProductDeletion,
   validateSaleDeletion,

@@ -10,12 +10,23 @@ describe('Testes de unidade do model de relacionamento de vendas e produtos', fu
 
   describe('Cadastro de relacionamento de vendas e produtos', function () {
     it('Retorna os produtos relacionados à venda', async function () {
-      sinon.stub(connection, 'execute').resolves([{ insertId: 1 }]);
       const saleId = 3;
+      sinon.stub(connection, 'execute').resolves([{ insertId: 1 }]);
 
       const result = await salesProductsModel.registerRelationshipSalesProducts(saleId, itemsSold[0]);
 
       expect(result).to.be.deep.equal(1);
     });
-  })
+  });
+
+  describe('Exclusão das linhas para posterior atualização das informações de um relacionamento entre vendas e produtos', function () {
+    it('Retorna o número de linhas afetadas pela atualização', async function () {
+      const saleId = 3;
+      sinon.stub(connection, 'execute').resolves([{ affectedRows: itemsSold.length }]);
+
+      const result = await salesProductsModel.deleteRelationshipSalesProducts(saleId);
+
+      expect(result).to.be.deep.equal(itemsSold.length);
+    });
+  });
 });

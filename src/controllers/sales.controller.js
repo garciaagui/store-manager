@@ -27,6 +27,17 @@ const registerSale = async (req, res) => {
   res.status(201).json(message);
 };
 
+const updateSale = async (req, res) => {
+  const { id } = req.params;
+  const newItemsSold = [...req.body];
+
+  const { type, message } = await salesService.updateSale(id, newItemsSold);
+
+  if (type) return res.status(errorMap.mapError(type)).json({ message });
+
+  res.status(200).json(message);
+};
+
 const deleteSale = async (req, res) => {
   const { id } = req.params;
 
@@ -41,5 +52,6 @@ module.exports = {
   findAll,
   findById,
   registerSale,
+  updateSale,
   deleteSale,
 };

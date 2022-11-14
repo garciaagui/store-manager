@@ -119,7 +119,7 @@ describe('Testes de unidade do controller de vendas', function () {
       expect(res.json).to.have.been.calledWith({ message: errorMessage });
     });
 
-    it('Retorna um erro caso alguma quantidade seja inválida', async function () {
+    it('Retorna um erro caso não haja nenhum produto vinculado a algum ID passado', async function () {
       const errorMessage = 'Product not found';
       const res = {};
       const req = mocks.reqWithInvalidProductId;
@@ -133,6 +133,102 @@ describe('Testes de unidade do controller de vendas', function () {
       await salesController.registerSale(req, res);
 
       expect(res.status).to.have.been.calledWith(404);
+      expect(res.json).to.have.been.calledWith({ message: errorMessage });
+    });
+  });
+
+  describe('Atualização de vendas com informações válidas', function () {
+    it('Retorna a venda atualizada caso o ID esteja correto', async function () {
+      const productId = 3;
+
+      const res = {};
+      const req = { params: { id: productId }, body: mocks.validReq.body };
+      res.status = sinon.stub().returns(res);
+      res.json = sinon.stub().returns();
+
+      sinon
+        .stub(salesService, 'updateSale')
+        .resolves({ type: null, message: mocks.validUpdatedRes });
+
+      await salesController.updateSale(req, res);
+
+      expect(res.status).to.have.been.calledWith(200);
+      expect(res.json).to.have.been.calledWith(mocks.validUpdatedRes);
+    });
+  });
+
+  describe('Tentativa de atualização de vendas com informações inválidas', function () {
+    const validSaleId = 1;
+
+    it('Retorna um erro caso alguma quantidade seja inválida', async function () {
+      const errorMessage = '"quantity" must be greater than or equal to 1';
+      const res = {};
+      const req = { params: { id: validSaleId }, body: mocks.reqWithInvalidQuantity.body, };
+      res.status = sinon.stub().returns(res);
+      res.json = sinon.stub().returns();
+
+      sinon
+        .stub(salesService, 'updateSale')
+        .resolves({ type: 'INVALID_VALUE', message: errorMessage });
+
+      await salesController.updateSale(req, res);
+
+      expect(res.status).to.have.been.calledWith(422);
+      expect(res.json).to.have.been.calledWith({ message: errorMessage });
+    });
+
+    it('Retorna um erro caso não haja nenhum produto vinculado a algum ID passado', async function () {
+      const errorMessage = 'Product not found';
+      const res = {};
+      const req = { params: { id: validSaleId }, body: mocks.reqWithInvalidProductId.body, };
+      res.status = sinon.stub().returns(res);
+      res.json = sinon.stub().returns();
+
+      sinon
+        .stub(salesService, 'updateSale')
+        .resolves({ type: 'PRODUCT_NOT_FOUND', message: errorMessage });
+
+      await salesController.updateSale(req, res);
+
+      expect(res.status).to.have.been.calledWith(404);
+      expect(res.json).to.have.been.calledWith({ message: errorMessage });
+    });
+
+    it('Retorna um erro caso não haja nenhuma venda vinculada ao ID passado', async function () {
+      const invalidSaleId = 999;
+      const errorMessage = 'Sale not found';
+
+      const res = {};
+      const req = { params: { id: invalidSaleId }, body: mocks.validReq.body, };
+      res.status = sinon.stub().returns(res);
+      res.json = sinon.stub().returns();
+
+      sinon
+        .stub(salesService, 'updateSale')
+        .resolves({ type: 'SALE_NOT_FOUND', message: errorMessage });
+
+      await salesController.updateSale(req, res);
+
+      expect(res.status).to.have.been.calledWith(404);
+      expect(res.json).to.have.been.calledWith({ message: errorMessage });
+    });
+
+    it('Retorna um erro caso o ID seja inválido', async function () {
+      const invalidSaleId = 'x';
+      const errorMessage = '"saleId" must be a number';
+
+      const res = {};
+      const req = { params: { id: invalidSaleId }, body: mocks.validReq.body, };
+      res.status = sinon.stub().returns(res);
+      res.json = sinon.stub().returns();
+
+      sinon
+        .stub(salesService, 'updateSale')
+        .resolves({ type: 'INVALID_VALUE', message: errorMessage });
+
+      await salesController.updateSale(req, res);
+
+      expect(res.status).to.have.been.calledWith(422);
       expect(res.json).to.have.been.calledWith({ message: errorMessage });
     });
   });
