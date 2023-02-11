@@ -20,7 +20,7 @@
 
 Projeto **21** do curso de Desenvolvimento Web da [Trybe][trybe-site-url].
 
-Aplicação consiste em uma API RESTful projetada para o gerenciamento de vendas no formato dropshipping, na qual é possível criar, visualizar, deletar e atualizar produtos e vendas. Desenvolvida em Node.js com banco de dados MySQL, segue a arquitetura MSC (Model-Service-Controller).
+Aplicação consiste em uma API RESTful projetada para o gerenciamento de vendas no formato dropshipping, na qual é possível criar, visualizar, deletar e atualizar (CRUD) produtos e vendas. Desenvolvida em Node.js com banco de dados MySQL, segue a arquitetura MSC (Model-Service-Controller).
 
 <details>
   <summary><strong>🎲 Aqui você pode se aprofundar na estrutura da base de dados.</strong></summary>
@@ -61,29 +61,50 @@ Os dados abaixo são fictícios e utilizados apenas para exemplificar a estrutur
 
 ## Tecnologias
 
-<!-- - [Docker][docker-url]
+<details>
+  <summary><strong>💻 Desenvolvimento </strong></summary><br />
+
+- [Docker][docker-url]
 - [dotenv][dotenv-url]
-- [ESLint][eslint-url]
 - [Express][express-url]
 - [JavaScript][javascript-url]
 - [Joi][joi-url]
-- [JWT][jwt-url]
 - [MySQL][mysql-url]
 - [Node.js][node-url]
 - [Nodemon][nodemon-url]
-- [Sequelize][sequelize-url] -->
+
+---
+
+</details>
+
+<details>
+  <summary><strong>🧪 Testes </strong></summary><br />
+
+- [Chai][chai-url]
+- [Mocha][mocha-url]
+- [Sinon.js][sinon-url]
+
+---
+
+</details>
+
+<details>
+  <summary><strong>✨ Alinhamento e qualidade de código </strong></summary><br />
+
+- [ESLint][eslint-url]
+
+---
+
+</details>
 
 <br/>
 
 ## Funcionalidades
 
-<!-- <ul>
-  <li>Login de usuários.</li>
-  <li>Geração e autenticação de token JWT.</li>
-  <li>Criar, listar e deletar usuários.</li>
-  <li>Criar e listar categorias.</li>
-  <li>Criar, listar, atualizar e deletar posts.</li>
-</ul> -->
+<ul>
+  <li>Criar, listar, atualizar e deletar produtos.</li>
+  <li>Criar, listar, atualizar e deletar vendas.</li>
+</ul>
 
 <br/>
 
@@ -121,23 +142,29 @@ npm install
 - Renomeie o arquivo `.env.example` (disponível na raíz do projeto) para `.env`;
 - Configure as variáveis para o seu contexto local.
 
-<!-- 4. Crie e popule o banco de dados com o comando abaixo.
+4. Crie a base de dados com o comando abaixo.
 
 ```
-npm run prestart
+npm run migration
 ```
 
-> ℹ️ Arquivos de `seeders` criados e disponibilizados pela Trybe.
+5. Popule a base de dados com o comando abaixo.
 
-5. Para iniciar o servidor, utilize um dos comandos abaixo.
+```
+npm run seed
+```
+
+> ℹ️ Arquivos `migration.sql` e `seed.sql` foram criados e disponibilizados pela Trybe.
+
+6. Para iniciar o servidor, utilize um dos comandos abaixo.
 
 ```
 // Comando 1 - Precisa rodá-lo novamente em caso de alteração no código
 npm run start
 
 // Comando 2 - Reinicia o servidor automaticamente caso haja alguma alteração no código
-npm run nodemon
-``` -->
+npm run debug
+```
 
 </details>
 
@@ -149,13 +176,13 @@ npm run nodemon
 2. Suba os containers executando o comando abaixo. Dois containers serão inicializados: `store_manager` (node) e `store_manager_db` (mysql).
 
 ```
-docker-compose up -d --build
+docker-compose up -d
 ```
 
-3. Acesse a CLI do container `blogs_api` com o comando abaixo ou abra-o no VS Code. Para a última opção, recomendo a extensão da Microsoft [Dev Containers](https://marketplace.visualstudio.com/items?itemName=ms-vscode-remote.remote-containers).
+3. Acesse a CLI do container `store_manager` com o comando abaixo ou abra-o no VS Code. Para a última opção, recomendo a extensão da Microsoft [Dev Containers](https://marketplace.visualstudio.com/items?itemName=ms-vscode-remote.remote-containers).
 
 ```
-docker exec -it blogs_api bash
+docker exec -it store_manager bash
 ```
 
 > ⚠️ A partir de agora, **TODOS** os comandos (scripts) disponíveis no `package.json` (incluindo o npm install) devem ser executados **DENTRO** do container `blogs_api`.
@@ -166,23 +193,29 @@ docker exec -it blogs_api bash
 npm install
 ```
 
-<!-- 5. Crie e popule o banco de dados com o comando abaixo.
+5. Crie a base de dados com o comando abaixo.
 
 ```
-npm run prestart
+npm run migration
 ```
 
-> ℹ️ Arquivos de `seeders` criados e disponibilizados pela Trybe.
+6. Popule a base de dados com o comando abaixo.
 
-6. Para iniciar o servidor, utilize um dos comandos abaixo.
+```
+npm run seed
+```
+
+> ℹ️ Arquivos `migration.sql` e `seed.sql` foram criados e disponibilizados pela Trybe.
+
+7. Para iniciar o servidor, utilize um dos comandos abaixo.
 
 ```
 // Comando 1 - Precisa rodá-lo novamente em caso de alteração no código
-npm start
+npm run start
 
 // Comando 2 - Reinicia o servidor automaticamente caso haja alguma alteração no código
-npm run nodemon
-``` -->
+npm run debug
+```
 
 - Para o contexto de teste local, siga os passos abaixo.
 
@@ -197,158 +230,127 @@ npm run nodemon
 
 Abaixo você pode conferir um detalhamento dos endpoints utilizados no projeto. Para realizar as requisições HTTP e consultar o comportamento de cada endpoint, você pode utilizar a extensão [Thunder Client](https://www.thunderclient.com/).
 
-<!-- > ⚠️ Atente-se ao token gerado durante o login, ele será necessário para todas as operações. Lembre-se também que seu tempo de expiração é de 1h.
-
 <details>
-  <summary><strong>Login</strong></summary>
+  <summary><strong>Products</strong></summary>
 
-### POST /login
+### GET /products
 
-- Valida o login do usuário e retorna um token gerado com jsonwebtoken (jwt).
-- O token gerado deve ser inserido no Header `Authorization` para autenticar outras operações. Lembre-se de guardá-lo e tenha em mente que seu tempo de expiração é de 1h.
-- URL: `http://localhost:PORT/login`
+- Retorna todos os produtos registrados no banco de dados.
+- URL: `http://localhost:PORT/products`
+
+### POST /products
+
+- Adiciona um novo produto ao banco de dados.
+- URL: `http://localhost:PORT/products`
 - O corpo da requisição deve seguir o formato abaixo:
 
 ```
 {
-  "email": "lewishamilton@gmail.com",
-  "password": "123456"
+  "name": "string"
 }
 ```
+
+### GET /products/search
+
+- Retorna todos os produtos que contenham em seu nome o termo passado na query.
+- Exemplo de URL: `http://localhost:PORT/products/search?q=Martelo`
+
+### GET /products/:id
+
+- Retorna o produto cujo id foi passado na URL.
+- Exemplo de URL: `http://localhost:PORT/products/1`
+
+### PUT /products/:id
+
+- Atualiza o produto cujo id foi passado na URL.
+- Exemplo de URL: `http://localhost:PORT/products/1`
+- O corpo da requisição deve seguir o formato abaixo:
+
+```
+{
+  "name": "string"
+}
+```
+
+### DELETE /products/:id
+
+- Remove do banco de dados o produto cujo id foi passado na URL.
+- Exemplo de URL: `http://localhost:PORT/products/1`
 
 ---
 
 </details>
 
 <details>
-  <summary><strong>User</strong></summary>
+  <summary><strong>Sales</strong></summary>
 
-### GET /user
+### GET /sales
 
-- Retorna todos os users cadastrados no banco de dados.
-- URL: `http://localhost:PORT/user`
+- Retorna todas as vendas registradas no banco de dados.
+- URL: `http://localhost:PORT/sales`
 
-### GET /user/:id
+### POST /sales
 
-- Retorna o user cujo id foi passado no endpoint.
-- Exemplo de URL: `http://localhost:PORT/user/1`
-
-### POST /user
-
-- Adiciona um novo user ao banco de dados.
-- URL: `http://localhost:PORT/user`
+- Adiciona uma nova venda ao banco de dados.
+- URL: `http://localhost:PORT/sales`
 - O corpo da requisição deve seguir o formato abaixo:
 
 ```
-{
-  "displayName": "Brett Wiltshire",
-  "email": "brett@email.com",
-  "password": "123456",
-  "image": "http://4.bp.blogspot.com/_YA50adQ-7vQ/S1gfR_6ufpI/AAAAAAAAAAk/1ErJGgRWZDg/S45/brett.png"
-
-  // a image não é obrigatória
-}
+[
+  {
+    "productId": number,
+    "quantity": number
+  },
+  {
+    "productId": number,
+    "quantity": number
+  }
+]
 ```
 
-### DELETE /user/me
+### GET /sales/:id
 
-- Deleta o user que está logado, baseado no id que esta dentro do token.
-- URL: `http://localhost:PORT/user/me`
+- Retorna a venda cujo id foi passado na URL.
+- Exemplo de URL: `http://localhost:PORT/sales/1`
+
+### PUT /sales/:id
+
+- Atualiza a venda cujo id foi passado na URL.
+- Exemplo de URL: `http://localhost:PORT/sales/1`
+- O corpo da requisição deve seguir o formato abaixo:
+
+```
+[
+  {
+    "productId": number,
+    "quantity": number
+  },
+  {
+    "productId": number,
+    "quantity": number
+  }
+]
+```
+
+### DELETE /sales/:id
+
+- Remove do banco de dados a venda cujo id foi passado na URL.
+- Exemplo de URL: `http://localhost:PORT/sales/1`
 
 ---
 
 </details>
-
-<details>
-  <summary><strong>Categories</strong></summary>
-
-### GET /categories
-
-- Retorna todas as categorias cadastradas no banco de dados.
-- URL: `http://localhost:PORT/categories`
-
-### POST /categories
-
-- Adiciona uma nova categoria ao banco de dados.
-- URL: `http://localhost:PORT/categories`
-- O corpo da requisição deve seguir o formato abaixo:
-
-```
-{
-  "name": "Typescript"
-}
-```
-
----
-
-</details>
-
-<details>
-  <summary><strong>Post</strong></summary>
-
-### GET /post
-
-- Retorna todos os blog posts registrados no banco de dados.
-- URL: `http://localhost:PORT/post`
-
-### GET /post/:id
-
-- Retorna o blog post cujo id foi passado no endpoint.
-- Exemplo de URL: `http://localhost:PORT/post/1`
-
-### GET /post/search
-
-- Retorna todos os blog posts cujos title ou content possuam o termo pesquisado na query.
-- Exemplo de URL: `http://localhost:PORT/post/search?q=vamos`
-
-### POST /post
-
-- Adiciona um novo blog post ao banco de dados.
-- URL: `http://localhost:PORT/post`
-- O corpo da requisição deve seguir o formato abaixo:
-
-```
-{
-  "title": "Latest updates, August 1st",
-  "content": "The whole text for the blog post goes here in this key",
-  "categoryIds": [1, 2]
-}
-```
-
-### PUT /post/:id
-
-- Atualiza o blog post cujo id foi passado no endpoint.
-- Exemplo de URL: `http://localhost:PORT/post/1`
-- O corpo da requisição deve seguir o formato abaixo:
-
-```
-{
-  "title": "Latest updates, August 1st",
-  "content": "The whole text for the blog post goes here in this key"
-}
-```
-
-### DELETE /post/:id
-
-- Deleta o blog post cujo id foi passado no endpoint.
-- Exemplo de URL: `http://localhost:PORT/post/1`
-
----
-
-</details> -->
 
 <br/>
 
 ## Habilidades
 
-<!-- <ul>
+<ul>
   <li>Aplicação da arquitetura de software MSC (Model-Service-Controller).</li>
-  <li>Modelagem de dados com o ORM Sequelize.</li>
   <li>Aplicação dos princípios de arquitetura REST.</li>
   <li>Criação de CRUD.</li>
-  <li>Utilização do jsonwebtoken (JWT) para geração de token e autenticação de usuários.</li>
-  <li>Utilização do JOI para validação.</li>
-</ul> -->
+  <li>Criação de testes unitários para toda camada MSC.</li>
+</ul>
 
 <br/>
 
@@ -377,17 +379,18 @@ Projeto desenvolvido por Guilherme Garcia. Seguem abaixo minhas redes sociais e 
 
 <!-- Stacks URLs -->
 
+[chai-url]: https://www.chaijs.com/
 [docker-url]: https://www.docker.com/
 [dotenv-url]: https://www.dotenv.org/
 [eslint-url]: https://eslint.org/
 [express-url]: https://expressjs.com/
 [javascript-url]: https://developer.mozilla.org/en-US/docs/Web/JavaScript
 [joi-url]: https://joi.dev/api/?v=17.7.0
-[jwt-url]: https://jwt.io/
+[mocha-url]: https://mochajs.org/
 [mysql-url]: https://www.mysql.com/
 [node-url]: https://nodejs.org/en/
 [nodemon-url]: https://nodemon.io/
-[sequelize-url]: https://sequelize.org/
+[sinon-url]: https://sinonjs.org/
 
 <!-- Contact URLs & Badges -->
 
