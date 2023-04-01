@@ -1,55 +1,55 @@
 <a name="readme-top"></a>
 
-<h1 align="center">Projeto Store Manager 🛍️</h1>
+<h1 align="center">Project Store Manager 🛍️</h1>
+
+> [🇧🇷 Clique aqui para acessar a versão em português.](README_pt-br.md)
+
+## Summary
+
+<ol>
+  <li><a href="#description">Description</a></li>
+  <li><a href="#technologies">Technologies</a></li>
+  <li><a href="#features">Features</a></li>
+  <li><a href="#how-to-run">How to Run</a></li>
+  <li><a href="#endpoints">Endpoints</a></li>
+  <li><a href="#about-trybe">About Trybe</a></li>
+  <li><a href="#contact">Contact</a></li>
+</ol>
+
+## Description
+
+**21st project** of the [Trybe][trybe-site-url] Web Development course.
+
+This application is a RESTful API designed for managing dropshipping sales, allowing the creation, viewing, deletion, and updating (CRUD) of products and sales. It was developed in Node.js with MySQL database, following the MSC (Model-Service-Controller) architecture.
 
 <details>
-  <summary>Sumário</summary><br />
-  <ol>
-    <li><a href="#sobre-o-projeto">Sobre o Projeto</a></li>
-    <li><a href="#tecnologias">Tecnologias</a></li>
-    <li><a href="#funcionalidades">Funcionalidades</a></li>
-    <li><a href="#como-executar-o-projeto">Como Executar o Projeto</a></li>
-    <li><a href="#endpoints">Endpoints</a></li>
-    <li><a href="#habilidades">Habilidades</a></li>
-    <li><a href="#sobre-a-trybe">Sobre a Trybe</a></li>
-    <li><a href="#contato">Contato</a></li>
-  </ol>
-</details>
+  <summary><strong>🎲 Here you can go deeper into the database structure.</strong></summary>
 
-## Sobre o Projeto
-
-Projeto **21** do curso de Desenvolvimento Web da [Trybe][trybe-site-url].
-
-Aplicação consiste em uma API RESTful projetada para o gerenciamento de vendas no formato dropshipping, na qual é possível criar, visualizar, deletar e atualizar (CRUD) produtos e vendas. Desenvolvida em Node.js com banco de dados MySQL, segue a arquitetura MSC (Model-Service-Controller).
-
-<details>
-  <summary><strong>🎲 Aqui você pode se aprofundar na estrutura da base de dados.</strong></summary>
-
-#### Diagrama de Entidade-Relacionamento
+#### Entity-Relationship Diagram
 
 ![DER](./public/der.png)
 
-> ℹ️ Imagem criada e disponibilizada pela Trybe.
+> ℹ️ Image created and provided by Trybe.
 
 ---
 
-#### Formato das entidades
+#### Entities format
 
-Os dados abaixo são fictícios e utilizados apenas para exemplificar a estrutura das tabelas do banco de dados.
+The data below are fictitious and used only to exemplify the structure of the database tables.
 
-- Uma tabela chamada `products`, com a seguinte estrutura:
+- A table called `products`, with the following structure:
 
   | id  | name            |
   | --- | --------------- |
   | 1   | Martelo do Thor |
 
-- Uma tabela chamada `sales`, com a seguinte estrutura:
+- A table called `sales`, with the following structure:
 
   | id  | date                |
   | --- | ------------------- |
   | 1   | 2022-05-27 01:59:51 |
 
-- Uma tabela chamada `sales_products`, que faz o relacionamento `N:N` entre `products` e `sales` e tem a seguinte estrutura:
+- A table called `sales_products`, which establishes a `N:N` relationship between `products` and `sales` and has the following structure:
 
   | sale_id | product_id | quantity |
   | ------- | ---------- | -------- |
@@ -59,10 +59,10 @@ Os dados abaixo são fictícios e utilizados apenas para exemplificar a estrutur
 
 <br/>
 
-## Tecnologias
+## Technologies
 
 <details>
-  <summary><strong>💻 Desenvolvimento </strong></summary><br />
+  <summary><strong>💻 Development </strong></summary><br />
 
 - [Docker][docker-url]
 - [dotenv][dotenv-url]
@@ -78,7 +78,7 @@ Os dados abaixo são fictícios e utilizados apenas para exemplificar a estrutur
 </details>
 
 <details>
-  <summary><strong>🧪 Testes </strong></summary><br />
+  <summary><strong>🧪 Testing </strong></summary><br />
 
 - [Chai][chai-url]
 - [Mocha][mocha-url]
@@ -89,7 +89,7 @@ Os dados abaixo são fictícios e utilizados apenas para exemplificar a estrutur
 </details>
 
 <details>
-  <summary><strong>✨ Alinhamento e qualidade de código </strong></summary><br />
+  <summary><strong>✨ Code alignment and quality </strong></summary><br />
 
 - [ESLint][eslint-url]
 
@@ -99,70 +99,70 @@ Os dados abaixo são fictícios e utilizados apenas para exemplificar a estrutur
 
 <br/>
 
-## Funcionalidades
+## Features
 
 <ul>
-  <li>Criar, listar, atualizar e deletar produtos.</li>
-  <li>Criar, listar, atualizar e deletar vendas.</li>
+  <li>Create, list, update, and delete products.</li>
+  <li>Create, list, update, and delete sales.</li>
 </ul>
 
 <br/>
 
-## Como Executar o Projeto
+## How to Run
 
-Para rodar o projeto, siga os passos abaixo.
+To run the project, follow the steps below.
 
-1. Clone o repositório;
-
-```
-git@github.com:garciaagui/trybe-project-21_store-manager.git
-```
-
-2. Navegue até a raiz do projeto;
+1. Clone the repository;
 
 ```
-cd trybe-project-21_store-manager/
+git clone git@github.com:garciaagui/store-manager.git
 ```
 
-> 🔘 Agora, decida se o projeto será rodado localmente ou via Docker.
+2. Navigate to the root of the project;
+
+```
+cd store-manager/
+```
+
+> 🔘 Now, decide whether the project will be run locally or via Docker.
 
 <details>
-  <summary><strong>💽 Localmente</strong></summary>
+  <summary><strong>💽 Locally</strong></summary>
 
-1. Certifique-se que você tenha o **node** instalado na versão 16 ou superior. Confira [aqui](https://nodejs.org/pt-br/download/package-manager/) a documentação oficial.
+1. Make sure you have **Node.js** installed in version 16 or higher. Check out the [official documentation](https://nodejs.org/en/download/package-manager) for more information.
 
-2. Na raiz do projeto, instale as dependências do projeto.
+2. In the project root, install the project dependencies.
 
 ```
 npm install
 ```
 
-3. Configure as variáveis de ambiente:
+3. Set up the environment variables:
 
-- Renomeie o arquivo `.env.example` (disponível na raíz do projeto) para `.env`;
-- Configure as variáveis para o seu contexto local.
+- Rename the `.env.example` file (available in the project root) to `.env`;
+- Set the variables for your local environment.
 
-4. Crie a base de dados com o comando abaixo.
+4. Create the database with the command below.
 
 ```
 npm run migration
 ```
 
-5. Popule a base de dados com o comando abaixo.
+5. Populate the database with the command below.
 
 ```
 npm run seed
 ```
 
-> ℹ️ Arquivos `migration.sql` e `seed.sql` foram criados e disponibilizados pela Trybe.
+> ℹ️ The `migration.sql` and `seed.sql` files were created and provided by Trybe.
 
-6. Para iniciar o servidor, utilize um dos comandos abaixo.
+6. To start the server, use one of the commands below.
 
 ```
-// Comando 1 - Precisa rodá-lo novamente em caso de alteração no código
+// Command 1 - Needs to be run again in case of code changes
 npm run start
 
-// Comando 2 - Reinicia o servidor automaticamente caso haja alguma alteração no código
+// Command 2 - Restarts the server automatically if there are any changes in the code
 npm run debug
 ```
 
@@ -170,57 +170,57 @@ npm run debug
 
 <details>
   <summary><strong>🐋 Docker</strong></summary>
-  
-1. Certifique-se que você tenha o **docker-compose** instalado na versão 1.29 ou superior. Links oportunos caso você precise instalar ou atualizar: [Tutorial DigitalOcean](https://www.digitalocean.com/community/tutorials/how-to-install-and-use-docker-compose-on-ubuntu-20-04-pt) e [documentação oficial](https://docs.docker.com/compose/install/);
 
-2. Suba os containers executando o comando abaixo. Dois containers serão inicializados: `store_manager` (node) e `store_manager_db` (mysql).
+1. Make sure you have **docker-compose** installed in version 1.29 or higher. Useful links if you need to install or update: [DigitalOcean Tutorial](https://www.digitalocean.com/community/tutorials/how-to-install-and-use-docker-compose-on-ubuntu-20-04) and [official documentation](https://docs.docker.com/compose/install/);
+
+2. Start the containers by running the command below. Two containers will be started: `store_manager` (node) and `store_manager_db` (mysql).
 
 ```
 docker-compose up -d
 ```
 
-3. Acesse a CLI do container `store_manager` com o comando abaixo ou abra-o no VS Code. Para a última opção, recomendo a extensão da Microsoft [Dev Containers](https://marketplace.visualstudio.com/items?itemName=ms-vscode-remote.remote-containers).
+3. Access the CLI of the `store_manager` container with the command below or open it in VS Code. For the latter, I recommend the Microsoft extension [Dev Containers](https://marketplace.visualstudio.com/items?itemName=ms-vscode-remote.remote-containers).
 
 ```
 docker exec -it store_manager bash
 ```
 
-> ⚠️ A partir de agora, **TODOS** os comandos (scripts) disponíveis no `package.json` (incluindo o npm install) devem ser executados **DENTRO** do container `blogs_api`.
+> ⚠️ From now on, **ALL** commands (scripts) available in `package.json` (including npm install) must be executed **INSIDE** the `store_manager` container.
 
-4. Instale as dependências do projeto.
+4. Install the project's dependencies.
 
 ```
 npm install
 ```
 
-5. Crie a base de dados com o comando abaixo.
+5. Create the database with the command below.
 
 ```
 npm run migration
 ```
 
-6. Popule a base de dados com o comando abaixo.
+6. Populate the database with the command below.
 
 ```
 npm run seed
 ```
 
-> ℹ️ Arquivos `migration.sql` e `seed.sql` foram criados e disponibilizados pela Trybe.
+> ℹ️ The `migration.sql` and `seed.sql` files were created and provided by Trybe.
 
-7. Para iniciar o servidor, utilize um dos comandos abaixo.
+7. To start the server, use one of the commands below.
 
 ```
-// Comando 1 - Precisa rodá-lo novamente em caso de alteração no código
+// Command 1 - Needs to be run again in case of code changes
 npm run start
 
-// Comando 2 - Reinicia o servidor automaticamente caso haja alguma alteração no código
+// Command 2 - Restarts the server automatically if there are any code changes
 npm run debug
 ```
 
-- Para o contexto de teste local, siga os passos abaixo.
+- For the local test context, follow the steps below.
 
-1. Renomeie o arquivo `.env.example` (disponível na raíz do projeto) para `.env`;
-2. Configure as variáveis para o seu contexto local.
+1. Rename the `.env.example` file (available in the project root) to `.env`;
+2. Set the variables for your local environment.
 
 </details>
 
@@ -228,21 +228,21 @@ npm run debug
 
 ## Endpoints
 
-Abaixo você pode conferir um detalhamento dos endpoints utilizados no projeto. Para realizar as requisições HTTP e consultar o comportamento de cada endpoint, você pode utilizar a extensão [Thunder Client](https://www.thunderclient.com/).
+Below you can find a breakdown of the endpoints used in the project. To make HTTP requests and check the behavior of each endpoint, you can use the [Thunder Client](https://www.thunderclient.com/) extension.
 
 <details>
   <summary><strong>Products</strong></summary>
 
 ### GET /products
 
-- Retorna todos os produtos registrados no banco de dados.
+- Returns all products registered in the database.
 - URL: `http://localhost:PORT/products`
 
 ### POST /products
 
-- Adiciona um novo produto ao banco de dados.
+- Adds a new product to the database.
 - URL: `http://localhost:PORT/products`
-- O corpo da requisição deve seguir o formato abaixo:
+- The request body must follow the format below:
 
 ```
 {
@@ -252,19 +252,19 @@ Abaixo você pode conferir um detalhamento dos endpoints utilizados no projeto. 
 
 ### GET /products/search
 
-- Retorna todos os produtos que contenham em seu nome o termo passado na query.
-- Exemplo de URL: `http://localhost:PORT/products/search?q=Martelo`
+- Returns all products whose name contains the search term passed in the query.
+- Example URL: `http://localhost:PORT/products/search?q=Martelo`
 
 ### GET /products/:id
 
-- Retorna o produto cujo id foi passado na URL.
-- Exemplo de URL: `http://localhost:PORT/products/1`
+- Returns the product whose id was passed in the URL.
+- Example URL: `http://localhost:PORT/products/1`
 
 ### PUT /products/:id
 
-- Atualiza o produto cujo id foi passado na URL.
-- Exemplo de URL: `http://localhost:PORT/products/1`
-- O corpo da requisição deve seguir o formato abaixo:
+- Updates the product whose id was passed in the URL.
+- Example URL: `http://localhost:PORT/products/1`
+- The request body must follow the format below:
 
 ```
 {
@@ -274,8 +274,8 @@ Abaixo você pode conferir um detalhamento dos endpoints utilizados no projeto. 
 
 ### DELETE /products/:id
 
-- Remove do banco de dados o produto cujo id foi passado na URL.
-- Exemplo de URL: `http://localhost:PORT/products/1`
+- Removes from the database the product whose id was passed in the URL.
+- Example URL: `http://localhost:PORT/products/1`
 
 ---
 
@@ -286,14 +286,14 @@ Abaixo você pode conferir um detalhamento dos endpoints utilizados no projeto. 
 
 ### GET /sales
 
-- Retorna todas as vendas registradas no banco de dados.
+- Returns all sales registered in the database.
 - URL: `http://localhost:PORT/sales`
 
 ### POST /sales
 
-- Adiciona uma nova venda ao banco de dados.
+- Adds a new sale to the database.
 - URL: `http://localhost:PORT/sales`
-- O corpo da requisição deve seguir o formato abaixo:
+- The request body must follow the format below:
 
 ```
 [
@@ -310,14 +310,14 @@ Abaixo você pode conferir um detalhamento dos endpoints utilizados no projeto. 
 
 ### GET /sales/:id
 
-- Retorna a venda cujo id foi passado na URL.
-- Exemplo de URL: `http://localhost:PORT/sales/1`
+- Returns the sale whose id was passed in the URL.
+- Example URL: `http://localhost:PORT/sales/1`
 
 ### PUT /sales/:id
 
-- Atualiza a venda cujo id foi passado na URL.
-- Exemplo de URL: `http://localhost:PORT/sales/1`
-- O corpo da requisição deve seguir o formato abaixo:
+- Updates the sale whose id was passed in the URL.
+- Example URL: `http://localhost:PORT/sales/1`
+- The request body must follow the format below:
 
 ```
 [
@@ -334,8 +334,8 @@ Abaixo você pode conferir um detalhamento dos endpoints utilizados no projeto. 
 
 ### DELETE /sales/:id
 
-- Remove do banco de dados a venda cujo id foi passado na URL.
-- Exemplo de URL: `http://localhost:PORT/sales/1`
+- Removes from the database the sale whose id was passed in the URL.
+- Example URL: `http://localhost:PORT/sales/1`
 
 ---
 
@@ -343,35 +343,24 @@ Abaixo você pode conferir um detalhamento dos endpoints utilizados no projeto. 
 
 <br/>
 
-## Habilidades
+## About Trybe
 
-<ul>
-  <li>Aplicação da arquitetura de software MSC (Model-Service-Controller).</li>
-  <li>Aplicação dos princípios de arquitetura REST.</li>
-  <li>Criação de CRUD.</li>
-  <li>Criação de testes unitários para toda camada MSC.</li>
-</ul>
+_"[Trybe][trybe-site-url] is a future school for anyone who wants to improve their lives and build a successful career in technology, where the person only pays when they get a good job."_
+
+_"The program features over 1,500 hours of online classes covering introduction to software development, front-end, back-end, computer science, software engineering, agile methodologies, and behavioral skills."_
 
 <br/>
 
-## Sobre a Trybe
+## Contact
 
-_"A [Trybe][trybe-site-url] é uma escola do futuro para qualquer pessoa que queira melhorar de vida e construir uma carreira de sucesso em tecnologia, onde a pessoa só paga quando conseguir um bom trabalho."_
-
-_"O programa conta com mais de 1.500 horas de aulas presenciais e online, aborda introdução ao desenvolvimento de software, front-end, back-end, ciência da computação, engenharia de software, metodologias ágeis e habilidades comportamentais._"
-
-<br/>
-
-## Contato
-
-Projeto desenvolvido por Guilherme Garcia. Seguem abaixo minhas redes sociais e meios de contato. 🤘
+Project developed by **Guilherme Garcia**. Below are my social networks and means of contact. 🤘
 
 [![Gmail][gmail-badge]][gmail-url]
 [![Linkedin][linkedin-badge]][linkedin-url]
 [![GitHub][github-badge]][github-url]
 [![Instagram][instagram-badge]][instagram-url]
 
-<p align="right"><a href="#readme-top">Voltar ao topo</a></p>
+<p align="right"><a href="#readme-top">Back to top</a></p>
 
 <!-- MARKDOWN LINKS & IMAGES -->
 
